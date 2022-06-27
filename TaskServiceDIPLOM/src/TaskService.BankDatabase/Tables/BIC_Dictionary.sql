@@ -1,0 +1,32 @@
+﻿CREATE TABLE [dbo].[BIC_Dictionary]
+(
+	[BIC]				VARCHAR(15)			NOT NULL,			
+	[BICDec]			NUMERIC(15)			NOT NULL,
+	[NameP]				VARCHAR(500)		NOT NULL,
+	[EnglName]			VARCHAR(500)		NULL,
+	[RegN]				INT					NULL,
+	[CntrCd]			VARCHAR(10)			NULL,
+	[Rgn]				INT					NULL,
+	[Ind]				DECIMAL(10)			NULL,
+	[Tnp]				VARCHAR(5)			NULL,
+	[Nnp]				VARCHAR(30)			NULL,
+	[Adr]				VARCHAR(300)		NULL,
+	[DateIn]			DATE				NULL,
+	[DateOut]			DATE				NULL,
+	[PtType]			INT					NULL,
+	[Srvcs]				INT					NULL,
+	[XchType]			INT					NULL,
+	[UID]				DECIMAL(10)			NULL,
+	[ParticipantStatus]	VARCHAR(10)			NULL,
+	[Account]			DECIMAL(20)			NULL,
+	[RegulationAccType]	VARCHAR(10)			NULL,
+	[AccountCBRBIC]		VARCHAR(12)			NULL,
+	AccountCBRBICDec	DECIMAL(12)			NULL,
+	AccountStatus		VARCHAR(20)			null,
+	[UURSDate]			DATE				NULL,
+	[LWRSDate]			DATE				NULL,
+	[BusinessDay]		DATE				NULL,
+	[UpdateDay]			DATE				NULL,
+	[IsLicenseValid]	BIT					NULL
+
+)

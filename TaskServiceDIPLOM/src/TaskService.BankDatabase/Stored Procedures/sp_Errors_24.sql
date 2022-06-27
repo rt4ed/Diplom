@@ -1,0 +1,5 @@
+﻿
+CREATE PROCEDURE sp_Errors_24
+AS
+SELECT * FROM LoginErrorLog
+WHERE  ErrorTime BETWEEN DATEADD(hh, -24, GETDATE()) AND GETDATE();

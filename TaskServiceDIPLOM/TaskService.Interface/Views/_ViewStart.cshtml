@@ -1,0 +1,15 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using TaskService.Interface.Areas.Identity.Data
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    Layout = "_Layout";
+}
+@*@if (SignInManager.IsSignedIn(User)){
+    Layout = "_Layout";
+}
+else{
+    Layout = "/Account/Login";
+}*@

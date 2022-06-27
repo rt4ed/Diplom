@@ -1,0 +1,147 @@
+﻿html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: #FFFFFF;
+    text-align: center;
+    margin: 0;
+}
+
+.main {
+    font-family: 'Roboto', sans-serif;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/*Шапка*/
+.header {
+    font-family: 'Roboto', sans-serif;
+    background-color: #333;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: 50px;
+    margin-bottom: 20px;
+}
+
+.navbar-nav {
+    margin-top:5px;
+    display: flex;
+    margin-left: 10px;
+    flex-direction: row !important;
+    justify-content: space-between;
+}
+
+.nav-link {
+    text-align: center;
+    margin-right: 10px;
+    width: 113px;
+    height: 42px;
+    background-color: white;
+    color: black;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 4px;
+    border: 2px solid;
+}
+
+.nav-link:hover {
+    transition: 0.4s;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+    border: 2px solid #FFFFFF;
+}
+
+.table th {
+    padding: .5rem !important;
+}
+
+/*.nav-link1 {
+    font-size: 16px;
+    margin-top: 20px;
+    margin-right: 40px;
+    color: white;
+    font-weight: bold;
+}
+
+    .nav-link1:hover {
+        cursor: pointer;
+        color: white;
+        font-weight:900;
+    }*/
+
+.dataTables_wrapper .dataTables_filter label {
+    text-align: right !important;
+}
+
+table{
+    text-align: left;
+}
+
+tr:hover{
+    cursor: pointer;
+}
+/*Plug*/
+.plug-header {
+    border: 1px solid grey;
+}
+
+.plheader-info {
+    min-height: 40px;
+    
+}
+
+.plheader-info p{
+    margin-top:8px;
+    margin-bottom:8px;
+}
+
+.plugbody-item {
+    height: 80px;
+    /*border-right: 2px solid gray;
+    border-left: 2px solid gray;
+    border-top: 2px solid gray;*/
+    border-left: 2px solid gray;
+    border-right: 2px solid gray;
+}
+
+plugitem-info h{
+    margin-top: 15px;
+}
+
+.plugitem-info {
+    border-top: 2px solid gray;
+    border-bottom: 2px solid gray;
+    background-color: #bcf5ee;
+}
+
+/*Modal*/
+.myModal {
+    position: fixed;
+    z-index: 1000;
+}
+
+label {
+    /* Other styling... */
+    padding:0px;
+}
+
+.mod{
+    background-color: #b6ff00;
+}
+
+button {
+    outline: none !important;
+    border: none;
+    background: 0 0;
+}

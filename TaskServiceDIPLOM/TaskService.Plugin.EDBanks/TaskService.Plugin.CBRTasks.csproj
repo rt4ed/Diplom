@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Description>IF NOT EXISTS(SELECT 1 FROM dbo.ServiceTasks WHERE TaskName = 'EDBanks')
+BEGIN
+    INSERT INTO dbo.ServiceTasks 
+        (TaskID, [IsEnabled],[TaskType],[Branch],
+        [TaskName],[LastWorkTime],[TaskStartTime],
+        [TaskEndTime],[Dependency],[FilePath],
+        [FieldsCount],[FieldsSeparator],[Params],
+        [ModifiedBy],[AuthoriziedBy],[Description],[ManualStart], [Url], [FileMask])
+    VALUES
+        (1, 1, 3, null,
+        'EDBanks', null, '2022-05-01 01:00:00',
+        '2022-05-01 23:59:00', '', 'C:\TEST',
+        null, null, null,
+        'Andrej', 'Andrej', 'BIC Dictionary', 0, 'https://www.cbr.ru/s/newbik', '*_ED807_full.xml')
+END
+GO
+IF NOT EXISTS(SELECT 1 FROM dbo.ServiceTasks WHERE TaskName = 'CurrentCBRRates')
+BEGIN
+    INSERT INTO dbo.ServiceTasks 
+        (TaskID, [IsEnabled],[TaskType],[Branch],
+        [TaskName],[LastWorkTime],[TaskStartTime],
+        [TaskEndTime],[Dependency],[FilePath],
+        [FieldsCount],[FieldsSeparator],[Params],
+        [ModifiedBy],[AuthoriziedBy],[Description],[ManualStart])
+    VALUES
+        (0, 1, 1, null,
+        'CurrentCBRRates', null, '2022-05-01 01:00:00',
+        '2022-05-01 23:59:00', '', null,
+        null, null, null,
+        'Andrej', 'Andrej', 'CBR Rates', 0)
+END
+GO</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.ServiceModel.Http" Version="4.9.0" />
+    <PackageReference Include="System.ServiceModel.Primitives" Version="4.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\src\TaskService.CommonTypes\TaskService.CommonTypes.csproj" />
+  </ItemGroup>
+
+</Project>

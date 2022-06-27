@@ -1,0 +1,48 @@
+﻿@model PluginViewModel
+@{
+    ViewData["Title"] = "Добавление файла";
+}
+<div class="plug-page">
+    <div class="plug-added">
+        <form class="form-plug form-group" asp-action="AddFile" asp-controller="Plugin" method="post" enctype="multipart/form-data">
+            <input type="file" name="uploadedFile" /><br>
+            <input type="submit" value="Загрузить" />
+        </form>
+    </div>
+    <h5>Загруженные плагины</h5>
+    <div class="container plug-table">
+        <div class="row plug-header">
+            <div class="col-4 align-middle plheader-info">
+                <p>Plugin</p>
+            </div>
+            <div class="col-8 align-middle plheader-info">
+                <p>Description</p>
+            </div>
+        </div>
+        @foreach(var f in Model.GetPlugins)
+        {
+            <div class="row plugbody-item">
+                <div class="col-4 plugitem-info">
+                    <h6>@f.Name</h6>
+                </div>
+                <div class="col-8 plugitem-info">
+                    <p>Authors: @f.Author</p>
+                    <p>Version: @f.Version</p>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+

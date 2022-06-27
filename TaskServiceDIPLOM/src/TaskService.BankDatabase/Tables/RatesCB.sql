@@ -1,0 +1,7 @@
+﻿CREATE TABLE [dbo].[RatesCB]
+(
+	[Name]	NVARCHAR(70)	NOT NULL PRIMARY KEY,
+	[Curs]	DECIMAL(23,8)	NOT NULL,
+	[Code]	INT				NOT NULL,
+	[Date]	DATE			NOT NULL
+)

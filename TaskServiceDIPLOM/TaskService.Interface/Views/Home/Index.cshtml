@@ -1,0 +1,262 @@
+﻿@*@using TaskService.CommonTypes.Classes*@
+@using TaskService.Interface.Models
+@model ServiceTaskViewModel
+@using Microsoft.AspNetCore.Identity
+@using TaskService.Interface.Areas.Identity.Data
+@using TaskService.API.DataManagers
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@inject UserManager<ApplicationUser> UserManager
+
+<div class="container">
+    <table class="table table-hover" id="example" style="width:100%">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Type</th>
+                <th>Is enabled</th>
+                <th>Branch</th>
+                <th>Name</th>
+                <th>Dependency</th>
+                <th>Last work time</th>
+                <th>Start time</th>
+                <th>End time</th>
+                <th>Manual start</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (ServiceTask task in Model.GetTaskDTOs)
+                {
+                    
+                    <tr class="clickable-row" data-href="url://" data-bs-toggle="modal" data-bs-target="#@task.TaskName">
+                        <th scope="row">@task.TaskID.ToString()</th>
+                        <td>@task.TaskType.ToString()</td>
+                        <td>@task.IsEnabled</td>
+                        <td>@task.Branch.ToString()</td>
+                        <td>@task.TaskName</td>
+                        <td>@task.Dependency</td>
+                        <td>@task.LastWorkTime?.ToString("HH:mm:ss")</td>
+                        <td>@task.TaskStartTime?.ToString("HH:mm:ss")</td>
+                        <td>@task.TaskEndTime?.ToString("HH:mm:ss")</td>
+                        <td>@task.ManualStart</td>
+                    </tr>
+                    <div class="modal fade" id="@task.TaskName" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <div class="tabbable">
+                                        <ul class="nav nav-tabs" role="tablist">
+                                            <li class="nav-item active">
+                                                <a class="nav-link active" href="#AAA_@task.TaskID" data-toggle="tab">
+                                                    Common
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="nav-link" href="#BBB_@task.TaskID" data-toggle="tab">
+                                                    File
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="nav-link" href="#CCC_@task.TaskID" data-toggle="tab">
+                                                    Other
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="modal-body mdl-bd">
+                                    @if (@task.TaskType == 1)
+                                    {
+                                        <div class="container-fluid">
+                                            <form asp-action="Index" asp-controller="Home" method="post" >
+                                                <div class="tab-content">
+                                                    <div class="tab-pane active" id="AAA_@task.TaskID">
+                                                        <div class="row">
+                                                            <div class="form-group col-4">
+                                                                <label class="col-5">Task Id</label>
+                                                                <input class="col-3" name="id" type="text" readonly value="@task.TaskID"/> 
+                                                            </div>
+                                                            <div class="form-group col-4">
+                                                                <label class="col-7">Task Type</label>
+                                                                <input class="col-3" type="text" readonly value="@task.TaskType"/> 
+                                                            </div>
+                                                            <div class="form-group col-4">
+                                                                <label class="col-7 mod">Is Enabled</label>
+                                                                <input class="col-2" name="isEnabled" type="checkbox" value="true"/> 
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+                                                        <div class="row">
+                                                            <div class="form-group col-4">
+                                                                <label class="col-5 mod">Branch</label>
+                                                                <input class="col-4" name="branch" type="number"  value="@task.Branch"/> 
+                                                            </div>
+                                                            <div class="form-group col-8">
+                                                                <label class="col-4">Task Name</label>
+                                                                <input class="col-7"  type="text" readonly value="@task.TaskName"/> 
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+                                                        <div class="row">
+                                                            <div class="form-group col-6">
+                                                                <label class="col-6 mod">Dependency</label>
+                                                                <input class="col-4" name="dependency" type="text"  value="@task.Dependency"/> 
+                                                            </div>
+                                                            <div class="form-group col-6">
+                                                                <label class="col-5">Last work time</label>
+                                                                <input class="col-6"  type="datetime" readonly value="@task.LastWorkTime"/> 
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+                                                        <div class="row">
+                                                            <div class="form-group col-6">
+                                                                <label class="col-5 mod">Start time</label>
+                                                                <input class="col-6" name="startTime" type="datetime" value="@task.TaskStartTime"/> 
+                                                            </div>
+                                                            <div class="form-group col-6">
+                                                                <label class="col-5 mod">End time</label>
+                                                                <input class="col-6" name="endTime" type="datetime" value="@task.TaskEndTime"/> 
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane" id="BBB_@task.TaskID">
+                                                        <div class="row">
+                                                            <div class="form-group col-6">
+                                                                <label class="col-5 mod">Task mask</label>
+                                                                <input class="col-5" name="mask" type="text"  value="@task.FileMask"/> 
+                                                            </div>
+                                                            <div class="form-group col-6">
+                                                                <label class="col-5 mod">Task path</label>
+                                                                <input class="col-5" name="path" type="text"  value="@task.FilePath"/> 
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane" id="CCC_@task.TaskID">
+                                                        <div class="row">
+                                                            <div class="form-group col-6">
+                                                                <label class="col-5 mod">Url</label>
+                                                                <input class="col-5" name="url" type="url"  value="@task.Url"/> 
+                                                            </div>
+                                                            <div class="form-group col-6">
+                                                                <label class="col-5 mod">Manual start</label>
+                                                                <input class="col-2" name="manualStart" type="checkbox"  value="true"/> 
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <label>User name:</label>
+                                                    <input type="text" name="modifiedBy" readonly value="@User?.Identity.Name"/>
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                                                    <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="container-fluid">
+                                            <form asp-action="Index" asp-controller="Home" method="post" >
+                                                <div class="tab-content">
+                                                    <div class="tab-pane active" id="AAA_@task.TaskID">
+                                                        <div class="row">
+                                                            <div class="form-group col-4">
+                                                                <label class="col-5">Task Id</label>
+                                                                <input class="col-3" name="id" type="text" readonly value="@task.TaskID"/> 
+                                                            </div>
+                                                            <div class="form-group col-4">
+                                                                <label class="col-7">Task Type</label>
+                                                                <input class="col-3" type="text" readonly value="@task.TaskType"/> 
+                                                            </div>
+                                                            <div class="form-group col-4">
+                                                                <label class="col-7 mod">Is Enabled</label>
+                                                                <input class="col-2" name="isEnabled" type="checkbox" value="true"/> 
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+                                                        <div class="row">
+                                                            <div class="form-group col-4">
+                                                                <label class="col-5 mod">Branch</label>
+                                                                <input class="col-4" name="branch" type="number"  value="@task.Branch"/> 
+                                                            </div>
+                                                            <div class="form-group col-8">
+                                                                <label class="col-4">Task Name</label>
+                                                                <input class="col-7"  type="text" readonly value="@task.TaskName"/> 
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+                                                        <div class="row">
+                                                            <div class="form-group col-6">
+                                                                <label class="col-6 mod">Dependency</label>
+                                                                <input class="col-4" name="dependency" type="text"  value="@task.Dependency"/> 
+                                                            </div>
+                                                            <div class="form-group col-6">
+                                                                <label class="col-5">Last work time</label>
+                                                                <input class="col-6"  type="datetime" readonly value="@task.LastWorkTime"/> 
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+                                                        <div class="row">
+                                                            <div class="form-group col-6">
+                                                                <label class="col-5 mod">Start time</label>
+                                                                <input class="col-6" name="startTime" type="datetime" value="@task.TaskStartTime"/> 
+                                                            </div>
+                                                            <div class="form-group col-6">
+                                                                <label class="col-5 mod">End time</label>
+                                                                <input class="col-6" name="endTime" type="datetime" value="@task.TaskEndTime"/> 
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane" id="BBB_@task.TaskID">
+                                                        <div class="row">
+                                                            <div class="form-group col-6">
+                                                                <label class="col-5 mod">Task mask</label>
+                                                                <input class="col-5" name="mask" type="text"  value="@task.FileMask"/> 
+                                                            </div>
+                                                            <div class="form-group col-6">
+                                                                <label class="col-5 mod">Task path</label>
+                                                                <input class="col-5" name="path" type="text"  value="@task.FilePath"/> 
+                                                            </div>
+                                                            <hr>
+                                                            <div class="row">
+                                                                <div class="form-group col-6">
+                                                                    <label class="col-5 mod">Fields count</label>
+                                                                    <input class="col-5" name="fieldsCount" type="text"  value="@task.FieldsCount"/> 
+                                                                </div>
+                                                                <div class="form-group col-6">
+                                                                    <label class="col-5 mod">Fields separator</label>
+                                                                    <input class="col-5" name="fieldsSeparator" type="text"  value="@task.FieldsSeparator"/> 
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane" id="CCC_@task.TaskID">
+                                                        <div class="row">
+                                                            <div class="form-group col-6">
+                                                                <label class="col-5 mod">Manual start</label>
+                                                                <input class="col-2" name="manualStart" type="checkbox"  value="true"/> 
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <label>User name:</label>
+                                                    <input type="text" name="modifiedBy" readonly value="@User.Identity.Name"/>
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                                                    <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </tbody>
+    </table>
+</div>
